@@ -41,7 +41,6 @@ function Sender({ sendMessage, placeholder, disabledInput, autofocus, onTextInpu
     }
   }
 
-
   const handlerOnSelectEmoji = (emoji) => {
     const el = inputRef.current;
     const { start, end } = getSelection(el)
@@ -83,7 +82,6 @@ function Sender({ sendMessage, placeholder, disabledInput, autofocus, onTextInpu
       }
     }
   }
-
 
   const handlerOnKeyDown= (event) => {
     const el = inputRef.current;
