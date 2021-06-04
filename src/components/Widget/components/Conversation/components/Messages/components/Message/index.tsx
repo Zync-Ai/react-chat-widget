@@ -16,9 +16,7 @@ type Props = {
 }
 
 function Message({ message, showTimeStamp }: Props) {
-  const sanitizedHTML = markdownIt({
-    linkify: true
-  })
+  const sanitizedHTML = markdownIt({ break: true,  linkify: true })
     .use(markdownItClass, {
       img: ['rcw-message-img']
     })
@@ -29,7 +27,7 @@ function Message({ message, showTimeStamp }: Props) {
 
   return (
     <div className={`rcw-${message.sender}`}>
-      <div className="rcw-message-text" dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
+      <div className="rcw-message-text" dangerouslySetInnerHTML={{ __html: sanitizedHTML.replace(/\n$/,'') }} />
       {showTimeStamp && <span className="rcw-timestamp">{format(message.timestamp, 'hh:mm')}</span>}
     </div>
   );
