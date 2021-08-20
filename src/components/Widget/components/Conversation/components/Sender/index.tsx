@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState, forwardRef, useImperativeHandle } from 'react';
+import { useSelector } from 'react-redux';
 import cn from 'classnames';
 
 import { GlobalState } from 'src/store/types';
