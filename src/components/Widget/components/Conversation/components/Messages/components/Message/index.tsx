@@ -16,7 +16,9 @@ type Props = {
 }
 
 function Message({ message, showTimeStamp }: Props) {
-  const sanitizedHTML = markdownIt()
+  const sanitizedHTML = markdownIt({
+    linkify: true
+  })
     .use(markdownItClass, {
       img: ['rcw-message-img']
     })
