@@ -1,10 +1,11 @@
 {
-  "name": "react-chat-widget",
+  "name": "@zync/react-chat-widget",
   "version": "3.0.5",
-  "description": "Chat web widget for React apps",
+  "scope": "zync",
+  "description": "Chat web widget for React apps - temp fork from Wolox/react-chat-widget",
   "main": "lib/index.js",
-  "repository": "git@github.com:Wolox/react-chat-widget.git",
-  "author": "Martín Callegari <martin.callegari@wolox.com.ar>",
+  "repository": "git@github.com:Zync-Ai/react-chat-widget.git",
+  "author": "Shawn Simon <shawn@zync.ai>",
   "license": "MIT",
   "types": "./lib/index.d.ts",
   "scripts": {
