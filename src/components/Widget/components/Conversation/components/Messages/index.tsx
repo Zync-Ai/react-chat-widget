@@ -42,6 +42,18 @@ function Messages({ profileAvatar, showTimeStamp }: Props) {
   const messageRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    setTimeout(() => {
+      scrollToBottom(
+        getContainerDiv(),
+        getMessagesDiv()
+      );
+    }, 50);
+    setTimeout(() => {
+      scrollToBottom(
+        getContainerDiv(),
+        getMessagesDiv()
+      );
+    }, 150);
     if (showChat && badgeCount) dispatch(markAllMessagesRead());
     else dispatch(setBadgeCount(messages.filter((message) => message.unread).length));
   }, [messages, badgeCount, showChat]);
