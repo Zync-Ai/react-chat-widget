@@ -21,7 +21,7 @@ export function createNewMessage(text: string, sender: string, id?: string): Mes
   };
 }
 
-export function createLinkSnippet(link: LinkParams, id?: string) : Link {
+export function createLinkSnippet(link: LinkParams, id?: string): Link {
   return {
     type: MESSAGES_TYPES.SNIPPET.LINK,
     component: Snippet,
@@ -64,7 +64,7 @@ function sinEaseOut(timestamp: any, begining: any, change: any, duration: any) {
 }
 
 /**
- * 
+ *
  * @param {*} target scroll target
  * @param {*} scrollStart
  * @param {*} scroll scroll distance
@@ -82,7 +82,7 @@ function scrollWithSlowMotion(target: any, scrollStart: any, scroll: number) {
     if (total < scrollStart + scroll) {
       raf(step);
     }
-  }
+  };
   raf(step);
 }
 
