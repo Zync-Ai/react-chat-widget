@@ -70,19 +70,21 @@ function Messages({ profileAvatar, showTimeStamp }: Props) {
     const message = list[index];
 
     return <CellMeasurer
-      key={`${index}-${format(message.timestamp, 'hh:mm')}`}
       parent={parent}
       cache={cache}
       columnIndex={0}
       rowIndex={index}
+      key={key}
     >
-      <div className='rcw-message' style={style}>
-        {profileAvatar &&
-          message.showAvatar &&
-          <img src={profileAvatar} className='rcw-avatar' alt='profile' />
-        }
-        {getComponentToRender(message)}
-      </div>
+      {({ registerChild }) => (
+        <div ref={registerChild} className='rcw-message' style={style}>
+          {profileAvatar &&
+            message.showAvatar &&
+            <img src={profileAvatar} className='rcw-avatar' alt='profile' />
+          }
+          {getComponentToRender(message)}
+        </div>
+      )}
     </CellMeasurer>;
   };
 
@@ -95,8 +97,8 @@ function Messages({ profileAvatar, showTimeStamp }: Props) {
             height={height}
             rowCount={list.length}
             rowRenderer={rowRenderer}
-            rowHeight={cache.rowHeight}
             deferredMeasurementCache={cache}
+            rowHeight={cache.rowHeight}
           />
         )}
       </AutoSizer>
