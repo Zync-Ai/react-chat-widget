@@ -86,10 +86,12 @@ function scrollWithSlowMotion(target: any, scrollStart: any, scroll: number) {
   raf(step);
 }
 
-export function scrollToBottom(messagesDiv: HTMLDivElement | null) {
-  if (!messagesDiv) return;
-  const screenHeight = messagesDiv.clientHeight;
-  const scrollTop = messagesDiv.scrollTop;
-  const scrollOffset = messagesDiv.scrollHeight - (scrollTop + screenHeight);
-  if (scrollOffset) scrollWithSlowMotion(messagesDiv, scrollTop, scrollOffset);
+export function scrollToBottom(containerDiv: HTMLDivElement | null, messagesDiv: HTMLDivElement | null) {
+  if (!containerDiv || !messagesDiv) return;
+  const screenHeight = containerDiv?.clientHeight || 0;
+  const scrollTop = containerDiv?.scrollTop || 0;
+  const messagesHeight = messagesDiv?.scrollHeight || 0;
+
+  const scrollOffset = scrollTop ? messagesHeight - (scrollTop + screenHeight) : messagesHeight * (1 / 0.67);
+  if (scrollOffset) scrollWithSlowMotion(containerDiv, scrollTop, scrollOffset);
 }

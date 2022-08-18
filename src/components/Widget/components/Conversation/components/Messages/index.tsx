@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState, ElementRef, ImgHTMLAttributes, MouseEvent } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import format from 'date-fns/format';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import List from 'react-virtualized/dist/commonjs/List';
 import CellMeasurer from 'react-virtualized/dist/commonjs/CellMeasurer';
@@ -23,6 +22,14 @@ type Props = {
   profileAvatar?: string;
 }
 
+const getContainerDiv = (): HTMLDivElement | null => {
+  return document.querySelector('.ReactVirtualized__List');
+};
+
+const getMessagesDiv = (): HTMLDivElement | null => {
+  return document.querySelector('.ReactVirtualized__Grid__innerScrollContainer');
+};
+
 function Messages({ profileAvatar, showTimeStamp }: Props) {
   const dispatch = useDispatch();
   const { messages, typing, showChat, badgeCount } = useSelector((state: GlobalState) => ({
@@ -33,13 +40,31 @@ function Messages({ profileAvatar, showTimeStamp }: Props) {
   }));
 
   const messageRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
-    // @ts-ignore
-    // scrollToBottom(messageRef.current);
-    scrollToBottom(document.querySelector('.ReactVirtualized__Grid.ReactVirtualized__List'));
     if (showChat && badgeCount) dispatch(markAllMessagesRead());
     else dispatch(setBadgeCount(messages.filter((message) => message.unread).length));
   }, [messages, badgeCount, showChat]);
+
+  const handleScrollOnLoad = (ref) => {
+    if (ref) {
+      const rowOffset = ref.getOffsetForRow({ index: messages.length });
+      if (rowOffset > 0) {
+        setTimeout(() => {
+          scrollToBottom(
+            getContainerDiv(),
+            getMessagesDiv()
+          );
+        }, 50);
+        setTimeout(() => {
+          scrollToBottom(
+            getContainerDiv(),
+            getMessagesDiv()
+          );
+        }, 150);
+      }
+    }
+  };
 
   const getComponentToRender = (message: Message | Link | CustomCompMessage) => {
     const ComponentToRender = message.component;
@@ -93,6 +118,7 @@ function Messages({ profileAvatar, showTimeStamp }: Props) {
       <AutoSizer>
         {({ width, height }) => (
           <List
+            ref={handleScrollOnLoad}
             width={width}
             height={height}
             rowCount={list.length}
