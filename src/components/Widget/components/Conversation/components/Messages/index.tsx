@@ -35,7 +35,7 @@ function Messages({ profileAvatar, showTimeStamp }: Props) {
     messages: state.messages.messages,
     badgeCount: state.messages.badgeCount,
     typing: state.behavior.messageLoader,
-    showChat: state.behavior.showChat
+    showChat: state.behavior.showChat,
   }));
 
   const messageRef = useRef<HTMLDivElement | null>(null);
@@ -44,47 +44,58 @@ function Messages({ profileAvatar, showTimeStamp }: Props) {
     const containerDiv = getContainerDiv();
     const messagesDiv = getMessagesDiv();
 
-    if (messagesDiv) {
+    if (messagesDiv && containerDiv) {
       const AUTO_SCROLL_THRESHOLD = 100;
-      if ((messagesDiv.clientHeight + messagesDiv.scrollTop) < (messagesDiv.scrollHeight - AUTO_SCROLL_THRESHOLD)) {
+
+      const isContainerLongEnough = messagesDiv.scrollHeight > (containerDiv.clientHeight + AUTO_SCROLL_THRESHOLD + 2);
+      const isScrolledTop = (containerDiv.clientHeight + containerDiv.scrollTop) < (messagesDiv.scrollHeight - AUTO_SCROLL_THRESHOLD)
+
+      if (isContainerLongEnough && isScrolledTop) {
         return;
       }
+
     }
 
     setTimeout(() => {
       scrollToBottom(
           containerDiv,
-          messagesDiv
+          messagesDiv,
       );
     }, 50);
 
     setTimeout(() => {
       scrollToBottom(
           containerDiv,
-          messagesDiv
+          messagesDiv,
       );
     }, 150);
     if (showChat && badgeCount) dispatch(markAllMessagesRead());
     else dispatch(setBadgeCount(messages.filter((message) => message.unread).length));
   }, [messages, badgeCount, showChat]);
 
+  const ran = useRef(false);
+
   const handleScrollOnLoad = (ref) => {
     if (ref) {
-      const rowOffset = ref.getOffsetForRow({ index: messages.length });
-      if (rowOffset > 0) {
-        setTimeout(() => {
-          scrollToBottom(
+      if (ran.current) {
+        return;
+      }
+
+      setTimeout(() => {
+        scrollToBottom(
             getContainerDiv(),
-            getMessagesDiv()
+            getMessagesDiv(),
           );
         }, 50);
-        setTimeout(() => {
-          scrollToBottom(
+
+      setTimeout(() => {
+        scrollToBottom(
             getContainerDiv(),
-            getMessagesDiv()
-          );
+            getMessagesDiv(),
+        );
         }, 150);
-      }
+
+      ran.current = true;
     }
   };
 
