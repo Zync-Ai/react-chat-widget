@@ -42,27 +42,16 @@ function Messages({ profileAvatar, showTimeStamp }: Props) {
   const messageRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const containerDiv = getContainerDiv();
-    const messagesDiv = getMessagesDiv();
-
-    if (messagesDiv) {
-      const AUTO_SCROLL_THRESHOLD = 100;
-      if ((messagesDiv.clientHeight + messagesDiv.scrollTop) < (messagesDiv.scrollHeight - AUTO_SCROLL_THRESHOLD)) {
-        return;
-      }
-    }
-
     setTimeout(() => {
       scrollToBottom(
-          containerDiv,
-          messagesDiv
+        getContainerDiv(),
+        getMessagesDiv()
       );
     }, 50);
-
     setTimeout(() => {
       scrollToBottom(
-          containerDiv,
-          messagesDiv
+        getContainerDiv(),
+        getMessagesDiv()
       );
     }, 150);
     if (showChat && badgeCount) dispatch(markAllMessagesRead());
