@@ -4,17 +4,18 @@ import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import List from 'react-virtualized/dist/commonjs/List';
 import CellMeasurer from 'react-virtualized/dist/commonjs/CellMeasurer';
 import CellMeasurerCache from 'react-virtualized/dist/commonjs/CellMeasurer/CellMeasurerCache';
+
+const cache = new CellMeasurerCache({
+  fixedWidth: true,
+  defaultHeight: 50
+});
+
 import { scrollToBottom } from '../../../../../../utils/messages';
 import { Message, Link, CustomCompMessage, GlobalState } from '../../../../../../store/types';
 import { setBadgeCount, markAllMessagesRead } from '@actions';
 
 import './styles.scss';
 import Loader from './components/Loader';
-
-const cache = new CellMeasurerCache({
-  fixedWidth: true,
-  defaultHeight: 50
-});
 
 type Props = {
   showTimeStamp: boolean,
@@ -44,8 +45,6 @@ function Messages({ profileAvatar, showTimeStamp }: Props) {
     const containerDiv = getContainerDiv();
     const messagesDiv = getMessagesDiv();
 
-    console.log("scroll attempt")
-
     if (messagesDiv) {
       const AUTO_SCROLL_THRESHOLD = 100;
       if ((messagesDiv.clientHeight + messagesDiv.scrollTop) < (messagesDiv.scrollHeight - AUTO_SCROLL_THRESHOLD)) {
@@ -72,17 +71,6 @@ function Messages({ profileAvatar, showTimeStamp }: Props) {
 
   const handleScrollOnLoad = (ref) => {
     if (ref) {
-      const messagesDiv = getMessagesDiv();
-
-      console.log("scroll attempt on load")
-
-      if (messagesDiv) {
-        const AUTO_SCROLL_THRESHOLD = 100;
-        if ((messagesDiv.clientHeight + messagesDiv.scrollTop) < (messagesDiv.scrollHeight - AUTO_SCROLL_THRESHOLD)) {
-          return;
-        }
-      }
-
       const rowOffset = ref.getOffsetForRow({ index: messages.length });
       if (rowOffset > 0) {
         setTimeout(() => {
