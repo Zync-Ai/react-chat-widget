@@ -44,6 +44,8 @@ function Messages({ profileAvatar, showTimeStamp }: Props) {
     const containerDiv = getContainerDiv();
     const messagesDiv = getMessagesDiv();
 
+    console.log("scroll attempt")
+
     if (messagesDiv) {
       const AUTO_SCROLL_THRESHOLD = 100;
       if ((messagesDiv.clientHeight + messagesDiv.scrollTop) < (messagesDiv.scrollHeight - AUTO_SCROLL_THRESHOLD)) {
@@ -70,6 +72,17 @@ function Messages({ profileAvatar, showTimeStamp }: Props) {
 
   const handleScrollOnLoad = (ref) => {
     if (ref) {
+      const messagesDiv = getMessagesDiv();
+
+      console.log("scroll attempt on load")
+
+      if (messagesDiv) {
+        const AUTO_SCROLL_THRESHOLD = 100;
+        if ((messagesDiv.clientHeight + messagesDiv.scrollTop) < (messagesDiv.scrollHeight - AUTO_SCROLL_THRESHOLD)) {
+          return;
+        }
+      }
+
       const rowOffset = ref.getOffsetForRow({ index: messages.length });
       if (rowOffset > 0) {
         setTimeout(() => {
