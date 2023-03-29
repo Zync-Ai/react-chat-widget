@@ -32,6 +32,7 @@ const getMessagesDiv = (): HTMLDivElement | null => {
 
 function Messages({ profileAvatar, showTimeStamp }: Props) {
   const dispatch = useDispatch();
+
   const { messages, typing, showChat, badgeCount } = useSelector((state: GlobalState) => ({
     messages: state.messages.messages,
     badgeCount: state.messages.badgeCount,
@@ -39,9 +40,23 @@ function Messages({ profileAvatar, showTimeStamp }: Props) {
     showChat: state.behavior.showChat
   }));
 
+  const isScrolled = useRef(false);
+
+  const handleMouseOver = () => {
+    isScrolled.current = true;
+  }
+
+  const handleMouseOut = () => {
+    isScrolled.current = false;
+  }
+
   const messageRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    if (isScrolled.current) {
+      return;
+    }
+
     setTimeout(() => {
       scrollToBottom(
         getContainerDiv(),
@@ -59,6 +74,9 @@ function Messages({ profileAvatar, showTimeStamp }: Props) {
   }, [messages, badgeCount, showChat]);
 
   const handleScrollOnLoad = (ref) => {
+    if (isScrolled.current) {
+      return;
+    }
     if (ref) {
       const rowOffset = ref.getOffsetForRow({ index: messages.length });
       if (rowOffset > 0) {
@@ -126,7 +144,7 @@ function Messages({ profileAvatar, showTimeStamp }: Props) {
   };
 
   return (
-    <div id='messages' className='rcw-messages-container' ref={messageRef}>
+    <div id='messages' className='rcw-messages-container' ref={messageRef} onMouseEnter={handleMouseOver} onMouseLeave={handleMouseOut}>
       <AutoSizer>
         {({ width, height }) => (
           <List
