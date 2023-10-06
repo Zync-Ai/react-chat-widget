@@ -16,6 +16,7 @@ function QuickButtons({ onQuickButtonClicked }: Props) {
   const getComponentToRender = (button: QuickButton) => {
     const ComponentToRender = button.component;
     return (
+        /*@ts-ignore*/
       <ComponentToRender
         onQuickButtonClicked={onQuickButtonClicked}
         button={button}

@@ -40,6 +40,7 @@ export default class App extends Component {
     return (
       <div>
         <button style={{position: 'absolute', right: 40, bottom: 150}}>test</button>
+        {/*@ts-ignore*/}
         <Widget
           title="Bienvenido"
           subtitle="Asistente virtual"

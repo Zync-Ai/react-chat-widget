@@ -1,6 +1,6 @@
 {
   "name": "@zync/react-chat-widget",
-  "version": "3.0.8",
+  "version": "3.0.9",
   "scope": "zync",
   "description": "Chat web widget for React apps - temp fork from Wolox/react-chat-widget",
   "main": "lib/index.js",
